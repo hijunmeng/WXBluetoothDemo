@@ -1,0 +1,51 @@
+<!--pages/bluetooth/index/index.wxml-->
+<view>
+  <view>
+    <label>使用前请先手动打开蓝牙</label>
+  </view>
+
+  <view>
+    <label>蓝牙状态：</label>
+    <text>{{bluetoothState}}</text>
+  </view>
+
+
+  <button bindtap='checkVersion'>检查是否支持蓝牙</button>
+  <button bindtap='openBluetoothAdapter'>初始化蓝牙</button>
+  <button bindtap='getBluetoothAdapterState'>获取本机蓝牙状态</button>
+  <button bindtap='onBluetoothAdapterStateChange'>监听蓝牙状态</button>
+  <button bindtap='startBluetoothDevicesDiscovery'>搜索附近蓝牙外围设备</button>
+  <button bindtap='stopBluetoothDevicesDiscovery'>停止搜索蓝牙外围设备</button>
+  <button bindtap='getBluetoothDevices'>已发现的蓝牙设备</button>
+  <button bindtap='onBluetoothDeviceFound'>监听寻找到新设备的事件</button>
+  <button bindtap='getConnectedBluetoothDevices'>根据 uuid 获取处于已连接状态的设备</button>
+
+
+  <button bindtap='closeBluetoothAdapter'>关闭蓝牙</button>
+  <view>
+    <text>deviceId</text>
+    <text>__</text>
+    <text>name</text>
+    <text>__</text>
+    <text>RSSI</text>
+    <text>__</text>
+  </view>
+  <scroll-view scroll-y="true" style="height:600px" bindscrolltolower="lower">
+    <view wx:for="{{list}}" style="color:#00f" bindtap="clickDevice" data-index="{{index}}"> 
+     
+
+        <view class="description">
+
+          <text>{{item.deviceId}}</text>
+          <text>__</text>
+          <text>{{item.name}}</text>
+          <text>__</text>
+          <text>{{item.RSSI}}</text>
+          <text>__</text>
+          <text>{{item.isConnected}}</text>
+          <!--<view style="margin-top:20rpx">{{item.RSSI}}</view>-->
+        </view>
+    </view>
+  </scroll-view>
+
+</view>

@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/bluetooth/index/index",
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/bluetooth/connect/connect"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  }
+}

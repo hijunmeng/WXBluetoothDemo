@@ -1,0 +1,100 @@
+<!--pages/bluetooth/connect/connect.wxml-->
+<view>
+  <view>
+    <text>退出即断开连接</text>
+  </view>
+  <view>
+    <text>已连接：</text>
+    <text>{{item.name}}</text>
+  </view>
+  <view>
+    <text>连接状态：</text>
+    <text>{{statusDesc}}</text>
+  </view>
+  <button bindtap='onBLEConnectionStateChange'>监听低功耗蓝牙连接的错误事件</button>
+  <button bindtap='getBLEDeviceServices'>获取蓝牙设备所有 service（服务）</button>
+
+
+  <view style='background:#ff0'>
+    <text>设备service列表</text>
+  </view>
+  <view style='background:#ff0'>
+    <text>uuid</text>
+    <text>__</text>
+    <text>isPrimary</text>
+    <text>__</text>
+  </view>
+  <view wx:for="{{services}}" style="color:#00f" bindtap="clickService" data-index="{{index}}">
+
+    <view class="description">
+
+      <text>{{item.uuid}}</text>
+      <text>__</text>
+      <text>{{item.isPrimary}}</text>
+      <text>__</text>
+
+    </view>
+  </view>
+
+  <view style='background:#ff0'>
+    <text>特征值列表</text>
+  </view>
+  <view style='background:#ff0'>
+    <text>uuid</text>
+    <text>__</text>
+    <text>read</text>
+    <text>__</text>
+    <text>write</text>
+    <text>__</text>
+    <text>notify</text>
+    <text>__</text>
+    <text>indicate</text>
+    <text>__</text>
+  </view>
+  <view wx:for="{{characteristics}}" style="color:#00f" bindtap="clickCharacteristic" data-index="{{index}}">
+
+    <view class="description">
+
+      <text>{{item.uuid}}</text>
+      <text>__</text>
+      <text>{{item.properties.read}}</text>
+      <text>__</text>
+      <text>{{item.properties.write}}</text>
+      <text>__</text>
+      <text>{{item.properties.notify}}</text>
+      <text>__</text>
+      <text>{{item.properties.indicate}}</text>
+      <text>__</text>
+
+    </view>
+  </view>
+  <view style='background:#ff0'>
+    <view>
+      <text>已选择的服务和特征值</text>
+    </view>
+    <view>
+      <text>服务id(uuid)：</text>
+      <text>{{currentService.uuid}}</text>
+    </view>
+    <view>
+      <text>特征值id(uuid)：</text>
+      <text>{{currentCharacteristic.uuid}}</text>
+    </view>
+  </view>
+  <view>
+    <view style='background:#f0f'>
+      <text>收发模块</text>
+    </view>
+    <view>
+      <text>接收：</text>
+      <text>{{receiveData}}</text>
+    </view>
+
+    <view>
+      <text>发送：</text>
+      <input value='{{inputData}}' bindinput="bindKeyInput" style="background:#0f0"></input>
+      <button bindtap='sendData'>发送</button>
+    </view>
+  </view>
+
+</view>
