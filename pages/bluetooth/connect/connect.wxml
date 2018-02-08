@@ -89,6 +89,7 @@
       <text>接收：</text>
       <text>{{receiveData}}</text>
     </view>
+    <button bindtap='clickNotify'>启用接收（notify）</button>
 
     <view>
       <text>发送：</text>

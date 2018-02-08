@@ -121,13 +121,13 @@ Page({
 tips: 并行调用多次读写接口存在读写失败的可能性
    */
   writeBLECharacteristicValue: function (sendData) {
-    
+
     let buffer = new ArrayBuffer(sendData.length)
     let dataView = new DataView(buffer)
     for (var i = 0; i < sendData.length; i++) {
       console.log(sendData.charAt(i).charCodeAt())
       dataView.setUint8(i, sendData.charAt(i).charCodeAt())
-     
+
     }
     wx.writeBLECharacteristicValue({
       deviceId: that.data.item.deviceId,
@@ -152,7 +152,7 @@ tips: 并行调用多次读写接口存在读写失败的可能性
    * 发送数据
    */
   sendData: function (e) {
-    console.log("输入框内容："+that.data.inputData)
+    console.log("输入框内容：" + that.data.inputData)
     that.writeBLECharacteristicValue(that.data.inputData)
   },
   /**
@@ -267,6 +267,65 @@ tips: 并行调用多次读写接口存在读写失败的可能性
       inputData: e.detail.value
     })
   },
+  /**
+   * 启用低功耗蓝牙设备特征值变化时的 notify 功能，订阅特征值。注意：必须设备的特征值支持notify或者indicate才可以成功调用，具体参照 characteristic 的 properties 属性
+
+另外，必须先启用notify才能监听到设备 characteristicValueChange 事件
+   */
+  notifyBLECharacteristicValueChange: function () {
+
+    wx.notifyBLECharacteristicValueChange({
+      deviceId: that.data.item.deviceId,
+      serviceId: that.data.currentService.uuid,
+      characteristicId: that.data.currentCharacteristic.uuid,
+      state: true,
+      success: function (res) {
+        console.log(JSON.stringify(res))
+        that.onBLECharacteristicValueChange()
+        wx.showToast({
+          title: '启用成功',
+        })
+      },
+      fail: function (res) {
+        console.log(JSON.stringify(res))
+        wx.showToast({
+          title: '启用失败',
+        })
+      },
+    })
+  },
+  /**
+   * 点击启用notify
+   */
+  clickNotify: function (e) {
+    that.notifyBLECharacteristicValueChange();
+  },
+  /**
+   * 监听低功耗蓝牙设备的特征值变化。必须先启用notify接口才能接收到设备推送的notification。
+   */
+  onBLECharacteristicValueChange: function () {
+    wx.onBLECharacteristicValueChange(function (res) {
+      console.log("onBLECharacteristicValueChange:"+JSON.stringify(res))
+      console.log(`characteristic ${res.characteristicId} has changed, now is ${res.value}`)
+      console.log(that.ab2hex(res.value))
+      that.setData({
+        receiveData:that.ab2hex(res.value)
+      })
+    })
+  },
+  /**
+   * ArrayBuffer转16进度字符串示例
+   */
+  ab2hex: function(buffer) {
+    var hexArr = Array.prototype.map.call(
+      new Uint8Array(buffer),
+      function (bit) {
+        return ('00' + bit.toString(16)).slice(-2)
+      }
+    )
+  return hexArr.join('');
+  }
+
 
 
 })
